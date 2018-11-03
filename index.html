@@ -1,4 +1,42 @@
 <!DOCTYPE html>
 <html>
-<p>Wussup my dooods</p>
+<body>
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+<button onclick="runPython()">Pie-thon</button>
+
+<p id="demo"></p>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function runPython() {
+  x.innerHTML = $.ajax({
+   url: "maptest.py",
+   success: function(response) {
+     // here you do whatever you want with the response variable
+   },
+   error: function(request, status, error) {
+        console.log(error)
+   }
+});
+}
+
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude + "\n";
+}
+</script>
+
+</body>
 </html>

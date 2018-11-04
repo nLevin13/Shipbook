@@ -19,9 +19,9 @@
         #overlay {
             position: fixed; /* Sit on top of the page content */
             display: none; /* Hidden by default */
-            width: 11%; /* Full width (cover the whole page) */
-            height: 100%; /* Full height (cover the whole page) */
-            top: 0; 
+            width: 8%; /* Full width (cover the whole page) */
+            height: 93%; /* Full height (cover the whole page) */
+            top: 7%; 
             left: 0;
             right: 0;
             bottom: 0;
@@ -37,7 +37,7 @@
 
     <script>
         function toggleOverlay(event) {
-            if (event.clientX < screen.width * 0.1) {
+            if (event.clientX < screen.width * 0.06) {
                 //on
                 document.getElementById("overlay").style.display = "block";
             }

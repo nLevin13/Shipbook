@@ -50,9 +50,10 @@
                             find a much better slogan<br />
                             ---</p>
                             <ul class="actions special">
-                                <li><button onclick="getLocation()" class="button primary">My Location</button></li>
-                                <li><button onclick="everything()" class="button primary">Explore</button></li>
+                                <li><button onclick="setExploreBtnDisable(true);getLocation()" class="button primary">My Location</button></li>
+                                <li><button onclick="everything()" id="explore_button" class="button primary">Explore</button></li>
                                 <li><a href="map.html" class="button primary">Map me</a></li>
+                                <li><button onclick="openMapWithURI(latest_data)" class="button primary">Test</button></li>
                             </ul>
                         </div>
                         <a href="#one" class="more scrolly">Learn More</a>
@@ -70,7 +71,7 @@
                             <ul class="icons major">
                                 <li><span class="icon fa-diamond major style1"><span class="label">Lorem</span></span></li>
                                 <li><span class="icon fa-heart-o major style2"><span class="label">Ipsum</span></span></li>
-                                <li><span class="icon fa-code major style3"><span class="label">Dolor</span></span></li>
+                                <li><span class="icon fa-code major style3" onclick="window.open('https://github.com/nLevin13/Shipbook').focus()"><span class="label">Dolor</span></span></li>
                             </ul>
                         </div>
                     </section>
@@ -184,7 +185,7 @@
               lon: 0
             };
             var places = {};
-            var posShowed = false;
+            latest_data = '';
             function getLocation() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(showPosition);
@@ -217,6 +218,7 @@
                   async:'asynchronous',
                   success: function(data) {
                     places = JSON.parse(data)
+                    latest_data = data
                     console.log(places["0"]["name"])
                   },
                   error: function(request, status, error) {
@@ -230,12 +232,30 @@
                 coords.lon = position.coords.longitude;
                 console.log("Latitude: " + coords.lat + 
                 "<br>Longitude: " + coords.lon + "\n");
-                posShowed = true;
+                setExploreBtnDisable(false)
             }
 
             function everything() {
               setCoords();
               runPython();
+            }
+
+            function setExploreBtnDisable(bool) {
+                document.getElementById("explore_button").disable = bool
+            }
+
+            function openMapWithURI(location_data) {
+                data = {"origin": {"location": {"lat": coords.lat, "lng": coords.lon}}}
+                if (location_data != null) {
+                    location_data = JSON.parse(location_data)
+                    for (var i = 0; i < Object.keys(location_data).length; i++) {
+                        index = (i).toString();
+                        data[index] = {"name": location_data[index]['name'], 
+                                        "location": location_data[index]['geometry']['location'], 
+                                        "inspiration": location_data[index]["inspiration"]}
+                    }
+                }
+                window.open('map.html?data='+JSON.stringify(data), 'MapWindow');
             }
             </script>
     </body>

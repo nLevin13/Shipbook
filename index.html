@@ -50,10 +50,9 @@
                             find a much better slogan<br />
                             ---</p>
                             <ul class="actions special">
-                                <li><button onclick="setExploreBtnDisable(true);getLocation()" class="button primary">My Location</button></li>
-                                <li><button onclick="everything()" id="explore_button" class="button primary">Explore</button></li>
-                                <li><a href="map.html" class="button primary">Map me</a></li>
-                                <li><button onclick="openMapWithURI(latest_data)" class="button primary">Test</button></li>
+                                <li><button onclick="setBtnDisable('explore_button', true);getLocation()" class="button primary">1. My Location</button></li>
+                                <li><button  onclick="everything();setBtnDisable('map_button', false)" id="explore_button" class="button primary">2. Explore</button></li>
+                                <li><button onclick="openMapWithURI(latest_data)" id='map_button' class="button primary">3. Map Me</button></li>
                             </ul>
                         </div>
                         <a href="#one" class="more scrolly">Learn More</a>
@@ -192,6 +191,7 @@
                 } else { 
                     console.log("Geolocation is not supported by this browser.");
                 }
+                setBtnDisable('explore_button', false)
             }
 
             function setCoords() {
@@ -232,7 +232,7 @@
                 coords.lon = position.coords.longitude;
                 console.log("Latitude: " + coords.lat + 
                 "<br>Longitude: " + coords.lon + "\n");
-                setExploreBtnDisable(false)
+                setBtnDisable('explore_button', false)
             }
 
             function everything() {
@@ -240,8 +240,9 @@
               runPython();
             }
 
-            function setExploreBtnDisable(bool) {
-                document.getElementById("explore_button").disable = bool
+            function setBtnDisable(btn, bool) {
+                console.log(btn + bool)
+                document.getElementById(btn).disable = bool
             }
 
             function openMapWithURI(location_data) {

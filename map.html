@@ -16,10 +16,37 @@
         margin: 0;
         padding: 0;
       }
+        #overlay {
+            position: fixed; /* Sit on top of the page content */
+            display: none; /* Hidden by default */
+            width: 11%; /* Full width (cover the whole page) */
+            height: 100%; /* Full height (cover the whole page) */
+            top: 0; 
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+            z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer; /* Add a pointer on hover */
+        }
     </style>
   </head>
   <body>
-    <div id="map"></div>
+    <div id="overlay" onclick="javascript:history.go(-1)"></div>
+    <div id="map" onmousemove="toggleOverlay(event)"></div>
+
+    <script>
+        function toggleOverlay(event) {
+            if (event.clientX < screen.width * 0.1) {
+                //on
+                document.getElementById("overlay").style.display = "block";
+            }
+            else {
+                //off
+                document.getElementById("overlay").style.display = "none";
+            }
+        }
+    </script>
     <script>
       // Note: This example requires that you consent to location sharing when
       // prompted by your browser. If you see the error "The Geolocation service

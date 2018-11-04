@@ -1,22 +1,22 @@
 import googlemaps
-import sys
+#import sys
 from access_token import token
 token = token()
 import time
 import random
 import json
 
-def mapstest():
-    args = sys.argv
-    # location = (34.876615, -112.916040)
+def mapstest(lat, lon):
+    #args = sys.argv
+    location = (lat, lon)
 
     start_time = time.time()
     gmaps = googlemaps.Client(key=token)
 
     type_counts = {}
     radius = 1500
-    location = args[1:]
-    print(location)
+    #location = args[1:]
+    #print(location)
     # Expand the searching area's radius by 2 until 
     # there are at least 3 type of landmarks
     tries = 0

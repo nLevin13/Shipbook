@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+</script>
+<body>
+
+<p>Hi Jenny</p>
+
+<button onclick="getLocation()">Try It</button>
+<!--<button onclick="setCoords()">set coords</button>
+<button onclick="runPython()">run my python</button>-->
+<button onclick="everything()">everything</button>
+<a href="map.html">Pie-thon</a>
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script>
+var coords = {
+  lat: 0,
+  lon: 0
+};
+var places = {};
+var posShowed = false;
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
+
+function setCoords() {
+  $.ajax({
+    type:'post',
+    url:'http://localhost:8001/server.py',
+    cache:false,
+    async:'asynchronous',
+    data:coords,
+    success: function(data) {
+      console.log("Mission passed: " + data)
+    },
+    error: function(request, status, error) {
+      console.log("Mission failed: " + error)
+    }
+  });
+}
+
+function runPython() {
+  $.ajax({
+      type:'get',
+      url:'http://localhost:8001/server.py',
+      cache:false,
+      async:'asynchronous',
+      success: function(data) {
+        places = JSON.parse(data)
+        console.log(places["0"]["name"])
+      },
+      error: function(request, status, error) {
+        console.log("Error: " + error)
+      }
+   });
+}
+
+function showPosition(position) {
+    coords.lat = position.coords.latitude;
+    coords.lon = position.coords.longitude;
+    console.log("Latitude: " + coords.lat + 
+    "<br>Longitude: " + coords.lon + "\n");
+    posShowed = true;
+}
+
+function everything() {
+  setCoords();
+  runPython();
+}
+</script>
+
+</body>
+</html>
